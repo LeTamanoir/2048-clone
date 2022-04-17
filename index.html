@@ -84,6 +84,8 @@
       @click="
         reset();
         luckyMode = true;
+        score['lucky'] = 0;
+        score['normal'] = 0;
         spawn()
       "
     >
@@ -96,6 +98,8 @@
       @click="
         reset();
         luckyMode = false;
+        score['lucky'] = 0;
+        score['normal'] = 0;
         spawn()
       "
     >
