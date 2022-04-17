@@ -24,6 +24,7 @@ function game() {
     ),
     score: { normal: 0, lucky: 0 },
     luckyMode: false,
+    fullScreen: false,
 
     cells: [],
     xDown: null,

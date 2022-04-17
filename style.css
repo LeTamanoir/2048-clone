@@ -12,6 +12,10 @@ html {
   background-color: var(--bg-site);
 }
 
+::backdrop {
+  background-color: var(--bg-site);
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -60,6 +64,35 @@ h1 {
 
 .score.lucky div {
   background-color: #f77c5f;
+}
+
+.fullscreen {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.fullscreen button {
+  padding: 0.8em;
+  margin: 1em;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+
+  color: #f9f6f2;
+  background-color: #3c3a33;
+
+  border: none;
+  border-radius: 0.2em;
+}
+
+.fullscreen button svg {
+  fill: #f9f6f2;
+  width: 1.6em;
+  height: 1.6em;
 }
 
 .btn {
