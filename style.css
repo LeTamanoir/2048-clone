@@ -183,10 +183,16 @@ h1 {
   color: #f9f6f2;
   background: #edd073;
 }
+.cell.cell-128 .cell-inner {
+  font-size: 2.5em;
+}
 
 .cell.cell-256 {
   color: #f9f6f2;
   background: #edcc62;
+}
+.cell.cell-256 .cell-inner {
+  font-size: 2.5em;
 }
 
 .cell.cell-512 {
