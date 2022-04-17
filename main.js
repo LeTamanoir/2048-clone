@@ -73,6 +73,7 @@ function game() {
             cell.number *= 2;
             _index = prevCell[axe] - dir;
             _moved.add(cell.id);
+            _has_moved = true;
 
             delete row[x - 1];
           }
