@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>2048-clone</title>
+
+    <link rel="stylesheet" href="style.css" />
+    <script src="main.js"></script>
+    <script
+      defer
+      src="https://unpkg.com/alpinejs@3.9.6/dist/cdn.min.js"
+    ></script>
+  </head>
+  <body
+    x-data="game"
+    @keydown="handleMove"
+    @touchstart="touchStart"
+    @touchmove="handleTouch"
+  >
+    <header>
+      <h1>Tama-2048</h1>
+      <div class="score" :class="{'lucky': luckyMode }">
+        <div>
+          Score : <span x-text="score[luckyMode ? 'lucky' : 'normal']"></span>
+        </div>
+        <div>
+          Best : <span x-text="best[luckyMode ? 'lucky' : 'normal']"></span>
+        </div>
+
+        <div
+          class="new-game"
+          @click="
+            reset();
+            score[luckyMode ? 'lucky' : 'normal'] = 0;
+            spawn()
+          "
+        >
+          New Game
+        </div>
+      </div>
+    </header>
+
+    <main id="board">
+      <div class="board-cell"></div>
+      <div class="board-cell"></div>
+      <div class="board-cell"></div>
+      <div class="board-cell"></div>
+
+      <div class="board-cell"></div>
+      <div class="board-cell"></div>
+      <div class="board-cell"></div>
+      <div class="board-cell"></div>
+
+      <div class="board-cell"></div>
+      <div class="board-cell"></div>
+      <div class="board-cell"></div>
+      <div class="board-cell"></div>
+
+      <div class="board-cell"></div>
+      <div class="board-cell"></div>
+      <div class="board-cell"></div>
+      <div class="board-cell"></div>
+
+      <template x-for="cell of cells" :key="cell.id">
+        <div
+          class="cell"
+          :class="`cell-${cell.number > 131072 ? 'super' : cell.number} ${cell.class}`"
+          :style="{
+            '--top': cell.y,
+            '--left': cell.x,
+            'z-index': cell.number
+          }"
+        >
+          <span class="cell-inner" x-text="cell.number"></span>
+        </div>
+      </template>
+    </main>
+
+    <button
+      class="btn lucky"
+      x-show="!luckyMode"
+      @click="
+        reset();
+        luckyMode = true;
+        spawn()
+      "
+    >
+      I'm Feeling Lucky
+    </button>
+
+    <button
+      class="btn not-lucky"
+      x-show="luckyMode"
+      @click="
+        reset();
+        luckyMode = false;
+        spawn()
+      "
+    >
+      Not so lucky after all
+    </button>
+  </body>
+</html>

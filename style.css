@@ -1,0 +1,296 @@
+:root {
+  --bg-site: #faf8ef;
+  --bg-board: #bbada0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--bg-site);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+
+  font-size: clamp(0.6em, 2vw, 1.8em);
+
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+h1 {
+  font-size: 1.6em;
+  color: #776e65;
+}
+
+.score {
+  display: flex;
+  align-items: center;
+}
+
+.score div {
+  margin: 0.2em 0.4em;
+  padding: 0.4em 1em;
+
+  background-color: #bbada0;
+  color: #ffffff;
+
+  font-size: 1em;
+  font-weight: bold;
+
+  border-radius: 0.2em;
+}
+
+.score div.new-game {
+  cursor: pointer;
+}
+
+.score.lucky div {
+  background-color: #f77c5f;
+}
+
+.btn {
+  margin: 1em;
+  padding: 0.6em 1em;
+  font-size: 0.8em;
+  font-weight: bold;
+
+  cursor: pointer;
+
+  color: #f9f6f2;
+
+  border: none;
+  border-radius: 0.2em;
+}
+
+.btn.lucky {
+  background-color: #3c3a33;
+}
+
+.btn.not-lucky {
+  background-color: #e93e37;
+}
+
+#board {
+  position: relative;
+
+  width: 25em;
+  height: 25em;
+  margin: auto;
+  padding: 0.3em;
+
+  border-radius: 0.2em;
+  background-color: var(--bg-board);
+
+  display: grid;
+
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+
+  --cell-size: calc((25em - 0.6em) / 4 - 0.8em);
+}
+
+.board-cell {
+  margin: 0.4em;
+  background-color: #cdc1b4;
+  border-radius: 0.2em;
+}
+
+.cell {
+  transition: top 0.1s cubic-bezier(0.77, 0, 0.18, 1),
+    left 0.1s cubic-bezier(0.77, 0, 0.18, 1),
+    background-color 0.1s cubic-bezier(0.77, 0, 0.18, 1);
+
+  border-radius: 0.2em;
+  user-select: none;
+
+  position: absolute;
+  top: calc(var(--top, 0) * (var(--cell-size) + 0.8em) + 0.6em);
+  left: calc(var(--left, 0) * (var(--cell-size) + 0.8em) + 0.6em);
+  z-index: 1;
+
+  width: calc(var(--cell-size) + 0.2em);
+  height: calc(var(--cell-size) + 0.2em);
+
+  color: #776e65;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cell.spawn {
+  opacity: 0;
+  animation: spawn 0.25s ease-in-out forwards;
+  animation-delay: 0.15s;
+}
+
+.cell.bubble {
+  animation: bubble 0.25s ease-out forwards;
+  animation-delay: 0s;
+}
+
+.cell-inner {
+  font-size: 3em;
+  font-weight: bold;
+}
+
+.cell.cell-1 {
+  background: #eee4da;
+}
+
+.cell.cell-2 {
+  background: #eee4da;
+}
+
+.cell.cell-4 {
+  background: #eee1c9;
+}
+
+.cell.cell-8 {
+  color: #f9f6f2;
+  background: #f3b27a;
+}
+
+.cell.cell-16 {
+  color: #f9f6f2;
+  background: #f69664;
+}
+
+.cell.cell-32 {
+  color: #f9f6f2;
+  background: #f77c5f;
+}
+
+.cell.cell-64 {
+  color: #f9f6f2;
+  background: #f75f3b;
+}
+
+.cell.cell-128 {
+  color: #f9f6f2;
+  background: #edd073;
+}
+
+.cell.cell-256 {
+  color: #f9f6f2;
+  background: #edcc62;
+}
+
+.cell.cell-512 {
+  color: #f9f6f2;
+  background: #edc950;
+}
+.cell.cell-512 .cell-inner {
+  font-size: 2.5em;
+}
+
+.cell.cell-1024 {
+  color: #f9f6f2;
+  background: #edc53f;
+}
+.cell.cell-1024 .cell-inner {
+  font-size: 2em;
+}
+
+.cell.cell-2048 {
+  color: #f9f6f2;
+  background: #edc22e;
+}
+.cell.cell-2048 .cell-inner {
+  font-size: 2em;
+}
+
+.cell.cell-4096 {
+  color: #f9f6f2;
+  background: #f26674;
+}
+.cell.cell-4096 .cell-inner {
+  font-size: 1.8em;
+}
+
+.cell.cell-8192 {
+  color: #f9f6f2;
+  background: #f14b61;
+}
+.cell.cell-8192 .cell-inner {
+  font-size: 1.8em;
+}
+
+.cell.cell-16384 {
+  color: #f9f6f2;
+  background: #e93e37;
+}
+.cell.cell-16384 .cell-inner {
+  font-size: 1.6em;
+}
+
+.cell.cell-32768 {
+  color: #f9f6f2;
+  background: #71b5df;
+}
+.cell.cell-32768 .cell-inner {
+  font-size: 1.6em;
+}
+
+.cell.cell-65536 {
+  color: #f9f6f2;
+  background: #5da1e4;
+}
+.cell.cell-65536 .cell-inner {
+  font-size: 1.6em;
+}
+
+.cell.cell-131072 {
+  color: #f9f6f2;
+  background: #007dbe;
+}
+.cell.cell-131072 .cell-inner {
+  font-size: 1.4em;
+}
+
+.cell.cell-super {
+  color: #f9f6f2;
+  background: #3c3a33;
+}
+.cell.cell-super .cell-inner {
+  font-size: 1.2em;
+}
+
+@keyframes spawn {
+  0% {
+    opacity: 0.2;
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.08);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes bubble {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.14);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
