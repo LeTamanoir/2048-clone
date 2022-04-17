@@ -34,7 +34,7 @@
           @click="
             reset();
             score[luckyMode ? 'lucky' : 'normal'] = 0;
-            spawn()
+            _spawn()
           "
         >
           New Game
@@ -78,6 +78,8 @@
       </template>
     </main>
 
+    <button @click="_spawn()">spawn</button>
+
     <button
       class="btn lucky"
       x-show="!luckyMode"
@@ -86,7 +88,7 @@
         luckyMode = true;
         score['lucky'] = 0;
         score['normal'] = 0;
-        spawn()
+        _spawn()
       "
     >
       I'm Feeling Lucky
@@ -100,7 +102,7 @@
         luckyMode = false;
         score['lucky'] = 0;
         score['normal'] = 0;
-        spawn()
+        _spawn()
       "
     >
       Not so lucky after all

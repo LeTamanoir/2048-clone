@@ -36,15 +36,23 @@ function game() {
     move(dir, axe) {
       let rows = [...this.cells]
         .reduce(
-          (p, c) => {
-            p[axe === "x" ? c.y : c.x].push({ ...c });
-            return p;
+          (prev, curr) => {
+            if (axe === "x") {
+              prev[curr.y].push({ ...curr });
+            } else {
+              prev[curr.x].push({ ...curr });
+            }
+            return prev;
           },
           [[], [], [], []]
         )
-        .map((r) =>
-          r.sort((p, v) => (dir === -1 ? p[axe] > v[axe] : p[axe] < v[axe]))
-        );
+        .map((r) => {
+          if (dir === -1) {
+            return r.sort((prev_, curr_) => prev_[axe] - curr_[axe]);
+          } else {
+            return r.sort((prev_, curr_) => curr_[axe] - prev_[axe]);
+          }
+        });
 
       let _possible = xy;
       let _has_moved = false;
@@ -60,10 +68,18 @@ function game() {
           if (!cell) continue;
           _best_cell += cell.number;
 
-          while (dir === -1 ? cell[axe] > _index : cell[axe] < _index) {
-            _has_moved = true;
-            cell[axe] = cell[axe] + dir;
+          if (dir === -1) {
+            while (cell[axe] > _index) {
+              _has_moved = true;
+              cell[axe] = cell[axe] + dir;
+            }
+          } else {
+            while (cell[axe] < _index) {
+              _has_moved = true;
+              cell[axe] = cell[axe] + dir;
+            }
           }
+
           _index = cell[axe] - dir;
 
           if (!prevCell) continue;
@@ -91,19 +107,21 @@ function game() {
       let hashRow = Object.fromEntries(flatRows.map((r) => [r.id, r]));
 
       for (let i = 0; i < this.cells.length; i++) {
-        if (hashRow[this.cells[i].id]) {
+        let cell_ID = this.cells[i].id;
+
+        if (hashRow[cell_ID]) {
           if (this.cells[i].class === "spawn") {
             this.cells[i].class = "";
           }
 
-          if (hashRow[this.cells[i].id].x !== this.cells[i].x) {
-            this.cells[i].x = hashRow[this.cells[i].id].x;
+          if (hashRow[cell_ID].x !== this.cells[i].x) {
+            this.cells[i].x = hashRow[cell_ID].x;
           } else {
-            this.cells[i].y = hashRow[this.cells[i].id].y;
+            this.cells[i].y = hashRow[cell_ID].y;
           }
 
-          if (hashRow[this.cells[i].id].number !== this.cells[i].number) {
-            this.cells[i].number = hashRow[this.cells[i].id].number;
+          if (hashRow[cell_ID].number !== this.cells[i].number) {
+            this.cells[i].number = hashRow[cell_ID].number;
             this.cells[i].class = "bubble";
 
             setTimeout(() => {
@@ -127,7 +145,7 @@ function game() {
       this.spawn(_possible);
     },
 
-    spawn(_possible = xy) {
+    spawn(_possible) {
       if (_possible.length === 0) return;
 
       let index = Math.floor(Math.random() * _possible.length);
@@ -143,7 +161,11 @@ function game() {
     },
 
     init() {
-      this.spawn();
+      this.spawn(xy);
+    },
+
+    _spawn() {
+      this.spawn(xy);
     },
 
     touchStart(e) {
